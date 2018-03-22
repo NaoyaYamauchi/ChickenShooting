@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour {
     private Touch firstDetectedTouch;
     private float movableRangeX = 2.8f;
     private float movableRangeY = 3.7f;
+    private int point = 0;
     //ゲーム終了判定
     private bool isEnd = false;
     //ボムを押した時の判定
@@ -27,10 +28,7 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-        //現時点で表示されている弾の数をコンソールに出すため
-        GameObject[] enemy = GameObject.FindGameObjectsWithTag("EnemyTag");
-        Debug.Log(enemy.Length);
+        
         if (Input.touchCount > 0)
         {
 
@@ -43,6 +41,7 @@ public class PlayerController : MonoBehaviour {
             transform.position = newPos;
             
         }
+        //ゲーム終了時にはタップでもどす。
         if (this.isEnd)
         {
             if (Input.GetMouseButtonDown(0))
@@ -66,11 +65,41 @@ public class PlayerController : MonoBehaviour {
     //ボムを押した時の処理
     public void OnClick()
     {
-        Debug.Log("CLICK");
         GameObject[] enemy = GameObject.FindGameObjectsWithTag("EnemyTag");
-        Debug.Log(gameObject.name);
-        this.finalscoreText.GetComponent<Text>().text = enemy.Length.ToString();
+        Score();
+        GetComponent<ParticleSystem>().Play();
+        this.finalscoreText.GetComponent<Text>().text = point.ToString();
         isEnd = true;
-    }
 
+    }
+    private void Score()
+    {
+        GameObject[] enemy = GameObject.FindGameObjectsWithTag("EnemyTag");
+        GameObject player = GameObject.FindGameObjectWithTag("PlayerTag");
+        Vector2 coordinatePlayer = player.transform.position;
+        for (int i = 0; i < enemy.Length; i++)
+        {
+            Vector2 coordinateEnemy = enemy[i].transform.position;
+            if(Vector2.Distance(coordinatePlayer, coordinateEnemy) <= 0.3)
+            {
+                point += 5000;
+                Debug.Log(Vector2.Distance(coordinatePlayer, coordinateEnemy));
+            }
+            else if(Vector2.Distance(coordinatePlayer, coordinateEnemy) <= 0.5)
+            {
+                point += 3000;
+                Debug.Log(Vector2.Distance(coordinatePlayer, coordinateEnemy));
+            }
+            else if (Vector2.Distance(coordinatePlayer, coordinateEnemy) <= 1.5)
+            {
+                point += 1000;
+                Debug.Log(Vector2.Distance(coordinatePlayer, coordinateEnemy));
+            }
+            else
+            {
+                point += 100;
+                Debug.Log(Vector2.Distance(coordinatePlayer, coordinateEnemy));
+            }
+        }
+    }
 }
