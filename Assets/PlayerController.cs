@@ -70,6 +70,10 @@ public class PlayerController : MonoBehaviour {
         GetComponent<ParticleSystem>().Play();
         this.finalscoreText.GetComponent<Text>().text = point.ToString();
         isEnd = true;
+        for(int i = 0; i < enemy.Length + 1; i++)
+        {
+            Destroy(enemy[i]);
+        }
 
     }
     private void Score()
