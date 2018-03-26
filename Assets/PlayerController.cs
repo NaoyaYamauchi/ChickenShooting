@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour {
     private float movableRangeY = 3.7f;
     private int point = 0;
     //ゲーム終了判定
-    private bool isEnd = false;
+    public bool isEnd = false;
     //ボムを押した時の判定
     public bool bombButton = false;
 
@@ -67,10 +67,12 @@ public class PlayerController : MonoBehaviour {
     {
         GameObject[] enemy = GameObject.FindGameObjectsWithTag("EnemyTag");
         Score();
+
         GetComponent<ParticleSystem>().Play();
         this.finalscoreText.GetComponent<Text>().text = point.ToString();
         isEnd = true;
-        for(int i = 0; i < enemy.Length + 1; i++)
+
+        for(int i = 0; i < enemy.Length ; i++)
         {
             Destroy(enemy[i]);
         }

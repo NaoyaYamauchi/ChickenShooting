@@ -8,6 +8,7 @@ public class EnemyGenerator : MonoBehaviour {
     //経過時間
     private float oneSecond;
 
+
     //出現範囲
     //上から
     float minXup = -3.0f;
@@ -31,7 +32,10 @@ public class EnemyGenerator : MonoBehaviour {
     float maxYunder = -5.0f;
 
     int loop = 0;
-    bool end = false;
+
+    //ゲーム終了判定
+    public PlayerController playerController;
+    public bool isEnd = false;
 
     // Use this for initialization
     void Start () {
@@ -41,10 +45,10 @@ public class EnemyGenerator : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         // GameObject[] enemyTags = GameObject.FindGameObjectsWithTag("EnemyTag");
-        
-        
+        //isEnd = playerController.isEnd;
+        Debug.Log(isEnd);
         //弾が増えすぎても問題なので制限
-        if(end==false)
+        if(isEnd==false)
         {
             //1秒ごとに生成できるように
             oneSecond -= Time.deltaTime;
@@ -85,5 +89,9 @@ public class EnemyGenerator : MonoBehaviour {
             }
 
         }
+    }
+    public void End()
+    {
+
     }
 }
