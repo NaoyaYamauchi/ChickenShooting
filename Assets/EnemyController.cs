@@ -15,6 +15,9 @@ public class EnemyController : MonoBehaviour
 
     private float radian;
 
+    public PlayerController playerController;
+    public bool isEnd = false;
+
     private Vector2 Position;
     // Use this for initialization
     void Start()
@@ -29,19 +32,26 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Position = transform.position;
-
-        Position.x += speed.x * Mathf.Cos(radian);
-        Position.y += speed.y * Mathf.Sin(radian);
-
-        transform.position = Position;
-
-        if (this.gameObject.transform.position.x < -3.1f
-            || this.gameObject.transform.position.y < -5.1f
-            || this.gameObject.transform.position.x < -3.1f
-            || this.gameObject.transform.position.y > 5.2f)
+        //isEndで止める
+        isEnd = playerController.isEnd;
+        if (!isEnd)
         {
-            Destroy(this.gameObject);
+            Position = transform.position;
+
+            Position.x += speed.x * Mathf.Cos(radian);
+            Position.y += speed.y * Mathf.Sin(radian);
+
+            transform.position = Position;
+
+            if (this.gameObject.transform.position.x < -3.1f
+                || this.gameObject.transform.position.y < -5.1f
+                || this.gameObject.transform.position.x < -3.1f
+                || this.gameObject.transform.position.y > 5.2f)
+            {
+                Destroy(this.gameObject);
+            }
         }
+
+
     }
 }
